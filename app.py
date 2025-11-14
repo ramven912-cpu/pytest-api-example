@@ -52,7 +52,7 @@ orders = {}
 '''
 Pet Namespace
 '''
-# Get a list of all pets
+# Get a list of all pets from the store
 
 
 @pet_ns.route('/')
@@ -103,7 +103,7 @@ class PetFindByStatus(Resource):
             filtered_pets = [pet for pet in pets if pet['status'] == status]
             return filtered_pets
         
-# Store Namespace
+# Store Namespace -ref
 @store_ns.route('/order')
 class OrderResource(Resource):
     @store_ns.doc('place_order')
@@ -148,12 +148,12 @@ class OrderUpdateResource(Resource):
         pet = next((pet for pet in pets if pet['id'] == pet_id), None)
 
         if pet is None:
-            api.abort(404, f"No pet found with ID {pet_id}")
+            api.abort(404, f"No pets found with ID {pet_id}")
 
-        # Update the order status
+        # Updating the order status
         order['status'] = update_data['status']
 
-        # Update the pet's status based on the order's new status
+        # Updat the pet's status based on the order's new status
         if update_data['status'] == 'pending':
             pet['status'] = 'pending'
         elif update_data['status'] == 'sold':
